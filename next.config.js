@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
+
+const withPWA = require("next-pwa");
+
 const nextConfig = {
-  env: {
-    // NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "dbd7vqsg0",
-  },
+  ...withPWA({
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+  }),
   webpack: (config) => {
     config.resolve.alias.canvas = false;
     return config;

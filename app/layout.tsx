@@ -11,6 +11,10 @@ const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["300", "400", 
 export const metadata: Metadata = {
   title: "OurJourney",
   description: "The Journey of Imtiyaz And Aditi",
+  manifest: "./manifest.json",
+  icons: {
+    apple: "./icon.png",
+  },
 };
 
 export default function RootLayout({
