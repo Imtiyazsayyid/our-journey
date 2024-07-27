@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/utils/cn";
-import { EditIcon } from "lucide-react";
+import { EditIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -11,9 +11,10 @@ interface Props {
   userImageUrl: string;
   title: string;
   date: string;
+  deleteEntry: (journal_id: string) => void;
 }
 
-function JourneyCard({ id, username, imageUrl, userImageUrl, title, date }: Props) {
+function JourneyCard({ id, username, imageUrl, userImageUrl, title, date, deleteEntry }: Props) {
   const router = useRouter();
 
   return (
@@ -38,6 +39,16 @@ function JourneyCard({ id, username, imageUrl, userImageUrl, title, date }: Prop
           }}
         >
           <EditIcon className="h-4 w-4" />
+        </div>
+
+        <div
+          className="absolute right-12 z-50 hover:text-rose-500"
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteEntry(id);
+          }}
+        >
+          <TrashIcon className="h-4 w-4" />
         </div>
 
         <div className="flex flex-row items-center space-x-4 z-10">

@@ -63,7 +63,7 @@ const FormPage = ({ searchParams }: Props) => {
     try {
       const journalEntryData = {
         ...form,
-        date: moment(form.date, "DD MMMM, YYYY").format("DD/MM/YYY"),
+        date: moment(form.date, "DD MMMM, YYYY").format("DD/MM/YYYY"),
         username: user.username,
       };
 

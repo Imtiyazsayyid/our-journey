@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { users } from "@/constants/users";
 import { useGlobalContext } from "@/context/GlobalProvider";
-import { getJournalEntries } from "@/lib/actions/journal.actions";
+import { deleteJounralEntry, getJournalEntries } from "@/lib/actions/journal.actions";
 import useAppwrite from "@/lib/useAppwrite";
 import { LogOutIcon, PlusIcon, SearchIcon } from "lucide-react";
 import moment from "moment";
@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Image from "next/image";
+import StandardSuccessToast from "@/components/StandardSuccessToast";
+import StandardErrorToast from "@/components/StandardErrorToast";
 
 const JorunalPage = () => {
   const router = useRouter();
@@ -36,6 +38,19 @@ const JorunalPage = () => {
     localStorage.removeItem("ourJourneyUser");
     setUser(null);
     router.replace("/login");
+  };
+
+  const deleteJournalEntry = async (journal_id: string) => {
+    const deletedEntry = await deleteJounralEntry(journal_id);
+    if (deletedEntry) {
+      StandardSuccessToast(
+        "Deleted Successfully",
+        "This Memory Has Been Removed. This memory is recoverable by Imtiyaz"
+      );
+    } else {
+      StandardErrorToast("Request Failed", "We Could Not remove this memory At the moment.");
+    }
+    refetch();
   };
 
   return (
@@ -104,10 +119,11 @@ const JorunalPage = () => {
               key={je.$id}
               id={je.$id}
               title={je.title}
-              date={moment(je.date, "DD/MM/YYYY").format("DD MMM, YYYY")}
+              date={moment(je.date, "DD/MM/YYYY").format("DD MMM, yyyy")}
               userImageUrl={users.find((user) => user.username === je.username)?.avatar || ""}
               imageUrl={je.imageURL}
               username={je.username}
+              deleteEntry={(jounral_id) => deleteJournalEntry(jounral_id)}
             />
           ))}
         </div>

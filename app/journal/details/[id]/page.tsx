@@ -22,8 +22,6 @@ const DetailsPage = ({ params }: Props) => {
   const { data, isLoading } = useAppwrite(() => getSingleJournalEntry(params.id));
   const router = useRouter();
 
-  // if (!data) return;
-
   if (isLoading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
@@ -32,13 +30,10 @@ const DetailsPage = ({ params }: Props) => {
     );
   }
 
-  // if (!data && isLoading) {
-  //   return (
-  //     <div className="w-full h-20 flex justify-center pt-20">
-  //       <Loader />
-  //     </div>
-  //   );
-  // }
+  const getFormattedContent = (text: string) => {
+    const newContent = text.replace(/\n/g, "<br>");
+    return newContent;
+  };
 
   return (
     <div className="w-full flex justify-center items-center min-h-screen py-20">
@@ -54,7 +49,12 @@ const DetailsPage = ({ params }: Props) => {
         <h1 className="text-3xl md:text-5xl font-bold mb-7 flex items-center gap-3">{data?.title}</h1>
         <p className="text-md mb-5 text-gray-400">{moment(data?.date, "DD/MM/YYYY").format("DD, MMM YYYY")}</p>
 
-        <p className="text-md md:text-xl mb-10">{data?.content}</p>
+        <p
+          className="text-md md:text-xl mb-10"
+          dangerouslySetInnerHTML={{
+            __html: getFormattedContent(data?.content),
+          }}
+        />
 
         <div className="flex justify-center">
           <Button className="bg-fun-200 hover:opacity-90 font-semibold h-11 w-fit" onClick={() => router.back()}>

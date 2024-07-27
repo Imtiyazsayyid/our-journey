@@ -19,7 +19,7 @@ interface JournalFilters {
 }
 
 export const getJournalEntries = async (filters: JournalFilters) => {
-  const queries = [];
+  const queries = [Query.equal("status", true)];
 
   if (filters.search) {
     queries.push(Query.search("title", filters.search));
@@ -28,8 +28,6 @@ export const getJournalEntries = async (filters: JournalFilters) => {
   if (filters.date && filters.date != "Invalid date") {
     queries.push(Query.equal("date", filters.date));
   }
-
-  console.log({ queries });
 
   const journalEntries = await databases.listDocuments(DATABASE_ID!, JOURNAL_COLLECTION_ID!, queries);
   return parseStringify(journalEntries.documents);
@@ -59,6 +57,18 @@ export const saveJournalEntry = async ({ images, ...form }: any) => {
     }
 
     return currentEntry;
+  } catch (error: any) {
+    console.log({ error });
+  }
+};
+
+export const deleteJounralEntry = async (journal_id: string) => {
+  try {
+    let deletedEntry = await databases.updateDocument(DATABASE_ID!, JOURNAL_COLLECTION_ID!, journal_id, {
+      status: false,
+    });
+
+    return deletedEntry;
   } catch (error: any) {
     console.log({ error });
   }
