@@ -90,7 +90,7 @@ const FormPage = ({ searchParams }: Props) => {
 
   return (
     <div className="w-full flex justify-center min-h-screen py-20">
-      <div className="h-full w-[1000px] p-10">
+      <div className="h-full w-full max-w-[1000px] p-10">
         <h1 className="text-4xl md:text-7xl font-bold mb-10">Store A Memory</h1>
 
         <p className="mb-2 text-lg font-bold">Upload A Photo About Today</p>
